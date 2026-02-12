@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* ===== SCREEN BASE ===== */
+.screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  color: white;
+  transition: opacity 1s ease;
+}
+
+/* ===== FIRST SCREEN ===== */
+#mainScreen {
+  background: url("wahhhhG.jpeg") center center / cover no-repeat;
+  animation: zoomSlow 20s infinite alternate ease-in-out;
+}
+
+/* ===== SECOND SCREEN ===== */
+#loveScreen {
+  background: url("background .jpeg") center center / cover no-repeat;
+  animation: zoomSlow 20s infinite alternate ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===== ZOOM EFFECT ===== */
+@keyframes zoomSlow {
+  from { background-size: 100%; }
+  to { background-size: 115%; }
+}
+
+/* ===== CARD ===== */
+.card {
+  background: rgba(0,0,0,0.55);
+  padding: 30px;
+  border-radius: 25px;
+  width: 85%;
+  max-width: 400px;
+}
+
+/* ===== TEXT ===== */
+h1 {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+#name {
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* ===== BUTTONS ===== */
+button {
+  margin-top: 20px;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.yes {
+  background: white;
+  color: #ff2e77;
+}
+
+.ofcourse {
+  background: #ff2e77;
+  color: white;
+  margin-left: 10px;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+/* ===== HEART EXPLOSION ===== */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 20px;
+  animation: floatUp 5s linear forwards;
+  color: white;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+/* ===== PHOTO SECTION ===== */
+.photo-hearts {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 1s ease;
+}
+
+.photo-hearts.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.heart-frame {
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid white;
+  animation: floatPic 3s ease-in-out infinite alternate;
+}
+
+.heart-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes floatPic {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
+}
+
+/* ===== SIGNATURE ===== */
+.signature {
+  position: absolute;
+  bottom: 20px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+</style>
+</head>
+
+<body>
+
+<!-- FIRST SCREEN -->
+<div id="mainScreen" class="screen">
+  <div class="card">
+    <h1>
+      I KNOW YOU ARE ALREADY MINE <br>
+      BUT WILL YOU BE MY VALENTINE
+    </h1>
+
+    <div id="name"></div>
+
+    <button class="yes" onclick="showLove(25)">YES</button>
+    <button class="ofcourse" onclick="showLove(60)">OF COURSE</button>
+  </div>
+
+  <div class="signature">Made by Valentine CEO</div>
+</div>
+
+<!-- SECOND SCREEN -->
+<div id="loveScreen" class="screen">
+  <div class="card">
+    <h1>YOU JUST MADE ME THE HAPPIEST MAN ALIVE</h1>
+
+    <p style="margin-top:15px;">
+      From now until forever, I choose you.<br>
+      Every smile. Every dream. Every heartbeat.
+    </p>
+
+    <div class="photo-hearts" id="photoSection">
+      <div class="heart-frame">
+        <img src="ratiii.jpeg">
+      </div>
+
+      <div class="heart-frame">
+        <img src="wahh.jpeg">
+      </div>
+
+      <div class="heart-frame">
+        <img src="hands.jpeg">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="signature">Forever Starts Now ❤️</div>
+</div>
+
+<!-- MUSIC -->
+<audio id="music" src="Music.mp3"></audio>
+
+<script>
+
+/* ===== TYPE NAME EFFECT ===== */
+let text = "BUN-BUN";  // CHANGE THIS
+let i = 0;
+
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("PALEME").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 150);
+  }
+}
+typeWriter();
+
+/* ===== TRANSITION ===== */
+function showLove(heartCount) {
+
+  document.getElementById("music").play();
+
+  explodeHearts(heartCount);
+
+  document.getElementById("mainScreen").style.opacity = "0";
+
+  setTimeout(() => {
+    document.getElementById("mainScreen").style.display = "none";
+    let loveScreen = document.getElementById("loveScreen");
+    loveScreen.style.opacity = "1";
+    loveScreen.style.pointerEvents = "auto";
+
+    // Fade in pictures
+    setTimeout(() => {
+      document.getElementById("photoSection").classList.add("show");
+    }, 400);
+
+  }, 1000);
+}
+
+/* ===== HEART EXPLOSION ===== */
+function explodeHearts(count) {
+  for (let i = 0; i < count; i++) {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
+}
+</script>
+
+</body>
+</html>
